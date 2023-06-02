@@ -106,12 +106,21 @@ func updateMyDetails(ems *employee.EmployeeManagementSystem) {
 	//asking the user to enter new value along with displaying the current stored value
 	//and telling user to don't input anything and just press enter to keep the old entry i.e. to not modify the specified parameter
 	fmt.Print("Phone No (Leave blank and press Enter to keep existing value: ", emp.PhoneNo, "): ")
-	inputPh, _ := reader.ReadString('\n')
-	inputPh = strings.TrimSpace(inputPh)
+	inputPhNo, _ := reader.ReadString('\n')
+	inputPhNo = strings.TrimSpace(inputPhNo)
+	//converting the entered phone-no parameter to integer to check if entered value is integer
+	inputPh, erro := strconv.Atoi(inputPhNo)
+	//if there is error while converting the phone-no parameter to integer then the application is stopped
+	//if there is no error while converting the phone-no parameter to integer the entered id parameter is stored against the new employee record
+	if erro != nil {
+		fmt.Println(erro)
+		fmt.Println("Exiting...")
+		os.Exit(0)
+	}
 	//checking if the user has entered any value for the specified parameter
 	//if new value is entered then assigning the new value to be stored in the records
 	//else storing the old unchanged value in the records
-	if inputPh != "" {
+	if inputPhNo != "" {
 		newEmp.PhoneNo = inputPh
 	} else {
 		newEmp.PhoneNo = emp.PhoneNo
@@ -147,7 +156,7 @@ func updateMyDetails(ems *employee.EmployeeManagementSystem) {
 
 	//asking the user to enter new value along with displaying the current stored value
 	//and telling user to don't input anything and just press enter to keep the old entry i.e. to not modify the specified parameter
-	fmt.Print("Date of Birth (YYYY-MM-DD) (Leave blank and press Enter to keep existing value: ", emp.DateOfBirth.Format("2006-01-02"), "): ")
+	fmt.Print("Date of Birth (YYYY-MM-DD: 2000-04-10) (Leave blank and press Enter to keep existing value: ", emp.DateOfBirth.Format("2006-01-02"), "): ")
 	dobStr, _ := reader.ReadString('\n')
 	dobStr = strings.TrimSpace(dobStr)
 	//checking if the user has entered any value for the specified parameter

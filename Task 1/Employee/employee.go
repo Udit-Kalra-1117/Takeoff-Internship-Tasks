@@ -11,7 +11,7 @@ type Employee struct {
 	ID          int
 	Password    string
 	Email       string
-	PhoneNo     string
+	PhoneNo     int
 	Department  string
 	Role        string
 	DateOfBirth time.Time
@@ -96,7 +96,7 @@ func ListAllEmployees(ems *EmployeeManagementSystem) {
 	//loop through the employees slice and print the details of all employees
 	for _, emp := range ems.employees {
 		fmt.Println("--------------------------------------")
-		fmt.Printf("\nName: %s, \nID: %d, \nEmail: %s, \nPhone No: %s, \nDepartment: %s, \nRole: %s, \nDate of Birth: %s\n",
+		fmt.Printf("\nName: %s, \nID: %d, \nEmail: %s, \nPhone No: %d, \nDepartment: %s, \nRole: %s, \nDate of Birth: %s\n",
 			emp.Name, emp.ID, emp.Email, emp.PhoneNo, emp.Department, emp.Role, emp.DateOfBirth.Format("2006-01-02"))
 		fmt.Println("--------------------------------------")
 	}
@@ -112,7 +112,7 @@ func ListUpcomingBirthdays(ems *EmployeeManagementSystem) {
 		//checking if the birthday is today or in any of the remaining days of the current ongoing month
 		if emp.DateOfBirth.Month() == time.Now().Month() && emp.DateOfBirth.Day() >= time.Now().Day() {
 			fmt.Println("--------------------------------------")
-			fmt.Printf("\nName: %s, \nID: %d, \nEmail: %s, \nPhone No: %s, \nDepartment: %s, \nRole: %s, \nDate of Birth: %s\n",
+			fmt.Printf("\nName: %s, \nID: %d, \nEmail: %s, \nPhone No: %d, \nDepartment: %s, \nRole: %s, \nDate of Birth: %s\n",
 				emp.Name, emp.ID, emp.Email, emp.PhoneNo, emp.Department, emp.Role, emp.DateOfBirth.Format("2006-01-02"))
 			fmt.Println("--------------------------------------")
 		}
