@@ -94,6 +94,14 @@ func updateMyDetails(ems *employee.EmployeeManagementSystem) {
 	fmt.Print("Email (Leave blank and press Enter to keep existing value: ", emp.Email, "): ")
 	inputE, _ := reader.ReadString('\n')
 	inputE = strings.TrimSpace(inputE)
+	//validating the email address entered above through user input
+	//if the entered email is valid then the email is stored in the email place
+	//if the entered email is not valid after checking it through the isValidEmail function then the application is stopped
+	if inputE != "" && !isValidEmail(inputE) {
+		fmt.Println("Invalid email address. Please try again.")
+		fmt.Println("Exiting...")
+		os.Exit(0)
+	}
 	//checking if the user has entered any value for the specified parameter
 	//if new value is entered then assigning the new value to be stored in the records
 	//else storing the old unchanged value in the records
