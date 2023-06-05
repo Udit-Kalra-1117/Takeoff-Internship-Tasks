@@ -6,9 +6,11 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
 
 	employee "github.com/uditkalra/ems/Employee"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 // function to view the logged in employee details
@@ -75,63 +77,82 @@ func updateMyDetails(ems *employee.EmployeeManagementSystem) {
 		newEmp.Name = emp.Name
 	}
 
-	//asking the user to enter new value along with displaying the current stored value
-	//and telling user to don't input anything and just press enter to keep the old entry i.e. to not modify the specified parameter
+	// //asking the user to enter new value along with displaying the current stored value
+	// //and telling user to don't input anything and just press enter to keep the old entry i.e. to not modify the specified parameter
+	// fmt.Print("Password (Leave blank and press Enter to keep existing value): ")
+	// inputPa, _ := reader.ReadString('\n')
+	// inputPa = strings.TrimSpace(inputPa)
+	// //checking if the user has entered any value for the specified parameter
+	// //if new value is entered then assigning the new value to be stored in the records
+	// //else storing the old unchanged value in the records
+	// if inputPa != "" {
+	// 	newEmp.Password = inputPa
+	// } else {
+	// 	newEmp.Password = emp.Password
+	// }
+
 	fmt.Print("Password (Leave blank and press Enter to keep existing value): ")
-	inputPa, _ := reader.ReadString('\n')
-	inputPa = strings.TrimSpace(inputPa)
-	//checking if the user has entered any value for the specified parameter
-	//if new value is entered then assigning the new value to be stored in the records
-	//else storing the old unchanged value in the records
-	if inputPa != "" {
-		newEmp.Password = inputPa
+	password, _ := terminal.ReadPassword(int(syscall.Stdin))
+	fmt.Println()
+	if len(password) > 0 {
+		newEmp.Password = string(password)
 	} else {
 		newEmp.Password = emp.Password
 	}
 
-	//asking the user to enter new value along with displaying the current stored value
-	//and telling user to don't input anything and just press enter to keep the old entry i.e. to not modify the specified parameter
-	fmt.Print("Email (Leave blank and press Enter to keep existing value: ", emp.Email, "): ")
-	inputE, _ := reader.ReadString('\n')
-	inputE = strings.TrimSpace(inputE)
-	//validating the email address entered above through user input
-	//if the entered email is valid then the email is stored in the email place
-	//if the entered email is not valid after checking it through the isValidEmail function then the application is stopped
-	if inputE != "" && !isValidEmail(inputE) {
-		fmt.Println("Invalid email address. Please try again.")
-		fmt.Println("Exiting...")
-		os.Exit(0)
-	}
-	//checking if the user has entered any value for the specified parameter
-	//if new value is entered then assigning the new value to be stored in the records
-	//else storing the old unchanged value in the records
-	if inputE != "" {
-		newEmp.Email = inputE
-	} else {
-		newEmp.Email = emp.Email
+	for {
+		//asking the user to enter new value along with displaying the current stored value
+		//and telling user to don't input anything and just press enter to keep the old entry i.e. to not modify the specified parameter
+		fmt.Print("Email (Leave blank and press Enter to keep existing value: ", emp.Email, "): ")
+		inputE, _ := reader.ReadString('\n')
+		inputE = strings.TrimSpace(inputE)
+		//validating the email address entered above through user input
+		//if the entered email is valid then the email is stored in the email place
+		//if the entered email is not valid after checking it through the isValidEmail function then the user is asked to enter a valid email
+		if inputE != "" && !isValidEmail(inputE) {
+			fmt.Println("Invalid email address. Please enter a valid email address.")
+			continue
+		}
+		//checking if the user has entered any value for the specified parameter
+		//if new value is entered then assigning the new value to be stored in the records
+		//else storing the old unchanged value in the records
+		if inputE != "" {
+			newEmp.Email = inputE
+		} else {
+			newEmp.Email = emp.Email
+		}
+		break
 	}
 
-	//asking the user to enter new value along with displaying the current stored value
-	//and telling user to don't input anything and just press enter to keep the old entry i.e. to not modify the specified parameter
-	fmt.Print("Phone No (Leave blank and press Enter to keep existing value: ", emp.PhoneNo, "): ")
-	inputPhNo, _ := reader.ReadString('\n')
-	inputPhNo = strings.TrimSpace(inputPhNo)
-	//converting the entered phone-no parameter to integer to check if entered value is integer
-	inputPh, erro := strconv.Atoi(inputPhNo)
-	//if there is error while converting the phone-no parameter to integer then the application is stopped
-	//if there is no error while converting the phone-no parameter to integer the entered id parameter is stored against the new employee record
-	if erro != nil {
-		fmt.Println(erro)
-		fmt.Println("Exiting...")
-		os.Exit(0)
-	}
-	//checking if the user has entered any value for the specified parameter
-	//if new value is entered then assigning the new value to be stored in the records
-	//else storing the old unchanged value in the records
-	if inputPhNo != "" {
-		newEmp.PhoneNo = inputPh
-	} else {
-		newEmp.PhoneNo = emp.PhoneNo
+	for {
+		//asking the user to enter new value along with displaying the current stored value
+		//and telling user to don't input anything and just press enter to keep the old entry i.e. to not modify the specified parameter
+		fmt.Print("Phone No (Leave blank and press Enter to keep existing value: ", emp.PhoneNo, "): ")
+		inputPhNo, _ := reader.ReadString('\n')
+		inputPhNo = strings.TrimSpace(inputPhNo)
+		// checking if the user has entered any value for the specified parameter
+		// if a new value is entered then validating its length and assigning it to be stored in the records
+		// else storing the old unchanged value in the records
+		if inputPhNo != "" {
+			// checking if the entered phone number is 10 digits long
+			if len(inputPhNo) != 10 {
+				fmt.Println("Invalid phone number. Please enter a 10-digit phone number.")
+				continue
+			}
+			// converting the entered phone number parameter to an integer
+			phno, erro := strconv.Atoi(inputPhNo)
+			// if there is an error while converting the phone number parameter to an integer,
+			// or if the converted phone number is not within the valid range,
+			// then the user is asked to re-enter the phone number
+			if erro != nil || phno <= 0 {
+				fmt.Println("Invalid phone number. Please enter a valid phone number.")
+				continue
+			}
+			newEmp.PhoneNo = phno
+		} else {
+			newEmp.PhoneNo = emp.PhoneNo
+		}
+		break
 	}
 
 	//asking the user to enter new value along with displaying the current stored value
@@ -162,27 +183,29 @@ func updateMyDetails(ems *employee.EmployeeManagementSystem) {
 		newEmp.Role = emp.Role
 	}
 
-	//asking the user to enter new value along with displaying the current stored value
-	//and telling user to don't input anything and just press enter to keep the old entry i.e. to not modify the specified parameter
-	fmt.Print("Date of Birth (YYYY-MM-DD: 2000-04-10) (Leave blank and press Enter to keep existing value: ", emp.DateOfBirth.Format("2006-01-02"), "): ")
-	dobStr, _ := reader.ReadString('\n')
-	dobStr = strings.TrimSpace(dobStr)
-	//checking if the user has entered any value for the specified parameter
-	//if new value is entered then assigning the new value to be stored in the records
-	//else storing the old unchanged value in the records
-	if dobStr != "" {
-		//checking if the entered value for date of birth is according to the default format by using the time.Parse function
-		dob, erro := time.Parse("2006-01-02", dobStr)
-		//if there is error in the entered date of birth then the application is stopped
-		if erro != nil {
-			fmt.Println("Invalid Date of Birth. Please try again")
-			fmt.Println("Exiting...")
-			os.Exit(0)
+	for {
+		//asking the user to enter new value along with displaying the current stored value
+		//and telling user to don't input anything and just press enter to keep the old entry i.e. to not modify the specified parameter
+		fmt.Print("Date of Birth (YYYY-MM-DD: 2000-04-10) (Leave blank and press Enter to keep existing value: ", emp.DateOfBirth.Format("2006-01-02"), "): ")
+		dobStr, _ := reader.ReadString('\n')
+		dobStr = strings.TrimSpace(dobStr)
+		//checking if the user has entered any value for the specified parameter
+		//if new value is entered then assigning the new value to be stored in the records
+		//else storing the old unchanged value in the records
+		if dobStr != "" {
+			//checking if the entered value for date of birth is according to the default format by using the time.Parse function
+			dob, erro := time.Parse("2006-01-02", dobStr)
+			//if there is error in the entered date of birth then the user is asked to re-enter the date of birth
+			if erro != nil {
+				fmt.Println("Invalid Date of Birth. Please try again. Enter the date of birth in (YYYY-MM-DD) format.")
+				continue
+			}
+			// if there is no error then the new entered value is stored in the date of birth parameter
+			newEmp.DateOfBirth = dob
+		} else {
+			newEmp.DateOfBirth = emp.DateOfBirth
 		}
-		// if there is no error then the new entered value is stored in the date of birth parameter
-		newEmp.DateOfBirth = dob
-	} else {
-		newEmp.DateOfBirth = emp.DateOfBirth
+		break
 	}
 
 	//updating the employee record in the employee management system slice

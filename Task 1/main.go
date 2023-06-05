@@ -49,3 +49,4 @@ func main() {
 //Admin
 // Username: admin
 // Password: admin123
+//sensitive tags - json

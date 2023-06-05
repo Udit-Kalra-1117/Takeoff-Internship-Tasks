@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"syscall"
 
 	employee "github.com/uditkalra/ems/Employee"
 	functions "github.com/uditkalra/ems/Functions"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 // LoginAsAdmin function with passed parameters as EmployeeManagementSystem
@@ -22,11 +24,15 @@ func LoginAsAdmin(ems *employee.EmployeeManagementSystem) {
 	//remove any newline character, white-spaces and tabs from entered username
 	username = strings.TrimSpace(username)
 
+	// fmt.Print("Password: ")
+	// //take input of password from user until a new line occurs or enter is pressed on the keyboard
+	// password, _ := reader.ReadString('\n')
+	// //remove any newline character, white-spaces and tabs from entered password
+	// password = strings.TrimSpace(password)
+
 	fmt.Print("Password: ")
-	//take input of password from user until a new line occurs or enter is pressed on the keyboard
-	password, _ := reader.ReadString('\n')
-	//remove any newline character, white-spaces and tabs from entered password
-	password = strings.TrimSpace(password)
+	bytePassword, _ := terminal.ReadPassword(int(syscall.Stdin))
+	password := string(bytePassword)
 
 	//check if username and password are valid
 	if username == "admin" && password == "admin123" {
@@ -49,11 +55,15 @@ func LoginAsEmployee(ems *employee.EmployeeManagementSystem) {
 	//remove any newline character, white-spaces and tabs from entered username
 	name = strings.TrimSpace(name)
 
+	// fmt.Print("Password: ")
+	// //take input of password from user until a new line occurs or enter is pressed on the keyboard
+	// password, _ := reader.ReadString('\n')
+	// //remove any newline character, whites-paces and tabs from entered password
+	// password = strings.TrimSpace(password)
+
 	fmt.Print("Password: ")
-	//take input of password from user until a new line occurs or enter is pressed on the keyboard
-	password, _ := reader.ReadString('\n')
-	//remove any newline character, whites-paces and tabs from entered password
-	password = strings.TrimSpace(password)
+	bytePassword, _ := terminal.ReadPassword(int(syscall.Stdin))
+	password := string(bytePassword)
 
 	//checking if username and password are valid by receiving the results and error parameters from the EmployeeLogin function
 	//called from Employee --> employee.go after passing the user entered username and password parameters to the EmployeeLogin function
