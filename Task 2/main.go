@@ -266,6 +266,9 @@ func updateEmployee(c *gin.Context) {
 			if updatedEmployee.PhoneNumber != "" {
 				employee.PhoneNumber = updatedEmployee.PhoneNumber
 			}
+			if updatedEmployee.Department != "" {
+				employee.Department = updatedEmployee.Department
+			}
 			if updatedEmployee.DateOfBirth != "" {
 				employee.DateOfBirth = updatedEmployee.DateOfBirth
 			}

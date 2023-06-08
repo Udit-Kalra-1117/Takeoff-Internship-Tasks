@@ -1,3 +1,4 @@
 ID,Name,Password,IsAdmin,Email,PhoneNumber,Department,Role,DateOfBirth
 1,Udit Kalra,$2a$10$VYBBA//KxhEecSaWrI68Oe0LTy5tKfmdD5fqpj.qAJQF1/nce1eOq,true,uditk@gmail.com,1234567890,HR,Manager,2002-04-15
 2,Cherag Kalra,$2a$10$xhRoiKB3qtm73UE3fTCZHOyyKruWmjpj.NEXShtczOEtakWwX/V6e,false,cheragk@gmail.com,5678901234,Business,Analyst,1993-09-04
+3,Vandana Joshi,$2a$10$HWyvkINTH2nk/RX7QivW4e60OA5uE3MISJwPn.IRLRx7kOTOOt8Ae,false,joshiv@gmail.com,4567890123,Technology,Senior Manager - 2,2002-05-18

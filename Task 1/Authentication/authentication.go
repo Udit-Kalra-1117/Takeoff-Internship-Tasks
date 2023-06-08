@@ -36,7 +36,7 @@ func LoginAsAdmin(ems *employee.EmployeeManagementSystem) {
 
 	//check if username and password are valid
 	if username == "admin" && password == "admin123" {
-		fmt.Println("Login successful as an Admin!!")
+		fmt.Println("\nLogin successful as an Admin!!")
 		functions.AdminMenu(ems)
 	} else {
 		fmt.Println("Invalid credentials. Please try again.")
