@@ -20,9 +20,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/employees": {
+        "/api/v1/employees": {
             "get": {
-                "description": "Retrieves a list of all employees",
+                "description": "Get a list of all employees",
                 "produces": [
                     "application/json"
                 ],
@@ -36,14 +36,14 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/main.Employee"
+                                "$ref": "#/definitions/structure.ShowEmployee"
                             }
                         }
                     }
                 }
             },
             "post": {
-                "description": "Creates a new employee record",
+                "description": "Create a new employee with the provided details",
                 "consumes": [
                     "application/json"
                 ],
@@ -53,31 +53,43 @@ const docTemplate = `{
                 "tags": [
                     "Employees"
                 ],
-                "summary": "Create an employee",
+                "summary": "Create a new employee",
                 "parameters": [
                     {
-                        "description": "Employee object",
+                        "description": "Employee details",
                         "name": "employee",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.Employee"
+                            "$ref": "#/definitions/structure.Employee"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Created",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/main.Employee"
+                            "$ref": "#/definitions/structure.ShowEmployee"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/views.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/views.ErrorResponse"
                         }
                     }
                 }
             }
         },
-        "/employees/{id}": {
+        "/api/v1/employees/{id}": {
             "get": {
-                "description": "Retrieves a specific employee by ID",
+                "description": "Get an employee with the provided ID",
                 "produces": [
                     "application/json"
                 ],
@@ -98,19 +110,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/main.Employee"
+                            "$ref": "#/definitions/structure.ShowEmployee"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/views.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/views.ErrorResponse"
                         }
                     }
                 }
             },
             "put": {
-                "description": "Updates a specific employee by ID",
+                "description": "Update an existing employee with the provided ID and details",
                 "consumes": [
                     "application/json"
                 ],
@@ -120,7 +138,7 @@ const docTemplate = `{
                 "tags": [
                     "Employees"
                 ],
-                "summary": "Update an employee by ID",
+                "summary": "Update an existing employee",
                 "parameters": [
                     {
                         "type": "integer",
@@ -130,12 +148,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Employee object",
+                        "description": "Updated employee details",
                         "name": "employee",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.Employee"
+                            "$ref": "#/definitions/structure.Employee"
                         }
                     }
                 ],
@@ -143,25 +161,31 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/main.Employee"
+                            "$ref": "#/definitions/structure.ShowEmployee"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/views.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/views.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/views.ErrorResponse"
                         }
                     }
                 }
             },
             "delete": {
-                "description": "Deletes a specific employee by ID",
+                "description": "Delete an employee with the provided ID",
                 "tags": [
                     "Employees"
                 ],
@@ -176,22 +200,22 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "202": {
-                        "description": "Accepted",
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/main.SuccessResponse"
+                            "$ref": "#/definitions/views.SuccessResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/views.ErrorResponse"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/views.ErrorResponse"
                         }
                     }
                 }
@@ -199,7 +223,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "main.Employee": {
+        "structure.Employee": {
             "type": "object",
             "properties": {
                 "date_of_birth": {
@@ -231,7 +255,36 @@ const docTemplate = `{
                 }
             }
         },
-        "main.ErrorResponse": {
+        "structure.ShowEmployee": {
+            "type": "object",
+            "properties": {
+                "date_of_birth": {
+                    "type": "string"
+                },
+                "department": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_admin": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone_number": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "views.ErrorResponse": {
             "type": "object",
             "properties": {
                 "error": {
@@ -239,7 +292,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.SuccessResponse": {
+        "views.SuccessResponse": {
             "type": "object",
             "properties": {
                 "message": {
