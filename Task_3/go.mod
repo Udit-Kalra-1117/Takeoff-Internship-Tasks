@@ -1,4 +1,4 @@
-module github.com/Udit-Kalra-1117/Takeoff-Internship-Tasks/tree/main/Task%203
+module github.com/uditkalra/emsGcpApi
 
 go 1.20
 
