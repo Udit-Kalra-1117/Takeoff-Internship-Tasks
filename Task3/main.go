@@ -9,16 +9,16 @@ import (
 	"github.com/uditkalra/emsGcpApi/handlers"
 )
 
-var Client *firestore.Client
+// var Client *firestore.Client
 
 func main() {
 	// Initialize Firestore client
 	ctx := context.Background()
-	Client, err := firestore.NewClient(ctx, "ems-rest-api-391013")
+	client, err := firestore.NewClient(ctx, "rest-api-391313")
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer Client.Close()
+	defer client.Close()
 
 	// Define API routes
 	http.HandleFunc("/employee", handlers.CreateEmployeeHandler)
