@@ -61,7 +61,7 @@ info:
   title: Implementing and Documenting Employee Management System API in Go using Swagger
   version: "1"
 paths:
-  /api/v1/employees:
+  /employees:
     get:
       description: Get a list of all employees
       produces:
@@ -105,7 +105,7 @@ paths:
       summary: Create a new employee
       tags:
       - Employees
-  /api/v1/employees/{id}:
+  /employees/{id}:
     delete:
       description: Delete an employee with the provided ID
       parameters:

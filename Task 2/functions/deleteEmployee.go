@@ -19,7 +19,7 @@ import (
 // @Success 200 {object} views.SuccessResponse
 // @Failure 400 {object} views.ErrorResponse
 // @Failure 404 {object} views.ErrorResponse
-// @Router /api/v1/employees/{id} [delete]
+// @Router /employees/{id} [delete]
 func DeleteEmployee(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 

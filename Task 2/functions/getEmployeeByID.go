@@ -18,7 +18,7 @@ import (
 // @Success 200 {object} structure.ShowEmployee
 // @Failure 400 {object} views.ErrorResponse
 // @Failure 404 {object} views.ErrorResponse
-// @Router /api/v1/employees/{id} [get]
+// @Router /employees/{id} [get]
 func GetEmployeeByID(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {

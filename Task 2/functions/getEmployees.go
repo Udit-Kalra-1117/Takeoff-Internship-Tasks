@@ -14,7 +14,7 @@ import (
 // @Tags Employees
 // @Produce json
 // @Success 200 {array} structure.ShowEmployee
-// @Router /api/v1/employees [get]
+// @Router /employees [get]
 func GetEmployees(w http.ResponseWriter, r *http.Request) {
 	showEmployees := make([]structure.ShowEmployee, len(variables.Slice_of_employees))
 	for i, employee := range variables.Slice_of_employees {

@@ -21,7 +21,7 @@ import (
 // @Success 200 {object} structure.ShowEmployee
 // @Failure 400 {object} views.ErrorResponse
 // @Failure 500 {object} views.ErrorResponse
-// @Router /api/v1/employees [post]
+// @Router /employees [post]
 func CreateEmployee(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 

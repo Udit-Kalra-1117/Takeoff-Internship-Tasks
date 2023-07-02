@@ -25,7 +25,7 @@ import (
 // @Failure 400 {object} views.ErrorResponse
 // @Failure 404 {object} views.ErrorResponse
 // @Failure 500 {object} views.ErrorResponse
-// @Router /api/v1/employees/{id} [put]
+// @Router /employees/{id} [put]
 func UpdateEmployee(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 

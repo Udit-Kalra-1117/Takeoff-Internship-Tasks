@@ -13,7 +13,7 @@
     "host": "localhost:8080",
     "basePath": "/api/v1",
     "paths": {
-        "/api/v1/employees": {
+        "/employees": {
             "get": {
                 "description": "Get a list of all employees",
                 "produces": [
@@ -80,7 +80,7 @@
                 }
             }
         },
-        "/api/v1/employees/{id}": {
+        "/employees/{id}": {
             "get": {
                 "description": "Get an employee with the provided ID",
                 "produces": [
