@@ -1,0 +1,3 @@
+ID,Name,Password,IsAdmin,Email,PhoneNumber,Department,Role,DateOfBirth
+1,Udit Kalra,$2a$10$UejPkqZUsnIlV1eSkotWQ.9AsKsZAC9Amu2SRoMTXgS88hB9HusE.,true,udit@gmail.com,+913456789012,HR,Manager,2002-04-15
+2,Cherag Kalra,$2a$10$Nkw.UKqSSOIMfoXoJvbC0.ECmtmAOBFpVHXtz9D.RQ66D9eYSJNCK,false,cherag458_kal@gmail.com,+917890123456,Business,Senior Consultant,1985-10-28
