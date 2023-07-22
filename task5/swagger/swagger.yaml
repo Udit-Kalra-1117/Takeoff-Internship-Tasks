@@ -1,0 +1,362 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Grocery Item API"
+  description: "This is the documentation of the APIs developed for managing grocery items. For this case, you can use the `Bearer Token` authorization method to test the authorization filters."
+  contact:
+    email: "kalra.udit15@gmail.com"
+consumes:
+  - "application/json"
+  - "multipart/form-data"
+produces:
+  - "application/json"
+securityDefinitions:
+  Bearer:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+    description: "Bearer token for authorization"
+host: "grocerystore.swagger.io"
+basePath: "/v1"
+tags:
+  - name: "grocery items"
+    description: "Everything about the grocery items present in the database"
+schemes: 
+- "https"
+paths:
+  /get_all_items:
+    get:
+      tags:
+        - grocery items
+      summary: "Get all grocery items"
+      description: "Get all grocery items that match the query parameters"
+      parameters:
+        - name: "name"
+          in: "query"
+          description: "Filter items by name"
+          required: false
+          type: "string"
+        - name: "category"
+          in: "query"
+          description: "Filter items by category"
+          required: false
+          type: "string"
+        - name: "price"
+          in: "query"
+          description: "Filter items by price"
+          required: false
+          type: "integer"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Grocery_Item"
+        400:
+          description: "Bad Request"
+        500:
+          description: "Internal Server Error"
+  /get_an_item/grocery_items_database/{id}:
+    get:
+      tags:
+        - grocery items
+      summary: "Get a grocery item by ID"
+      description: "Get a grocery item by its unique ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the grocery item to retrieve"
+          required: true
+          type: "string"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Grocery_Item"
+        400:
+          description: "Bad Request"
+        404:
+          description: "Grocery item not found"
+        500:
+          description: "Internal Server Error"
+  /create_an_item:
+    post:
+      tags:
+        - grocery items
+      summary: "Create a new grocery item"
+      description: "Create a new grocery item by providing the necessary details as form data"
+      parameters:
+        - name: "name"
+          in: "formData"
+          description: "Name of the grocery item"
+          required: true
+          type: "string"
+        - name: "price"
+          in: "formData"
+          description: "Price of the grocery item (Rs)"
+          required: true
+          type: "integer"
+        - name: "category"
+          in: "formData"
+          description: "Category of the grocery item"
+          required: true
+          type: "string"
+        - name: "image"
+          in: "formData"
+          description: "Image file of the grocery item"
+          required: true
+          type: "file"
+        - name: "weight"
+          in: "formData"
+          description: "Weight of the grocery item"
+          required: true
+          type: "string"
+        - name: "veg"
+          in: "formData"
+          description: "Boolean flag indicating if the item is vegetarian"
+          required: true
+          type: "boolean"
+        - name: "brand"
+          in: "formData"
+          description: "Brand of the grocery item"
+          required: true
+          type: "string"
+        - name: "quantity"
+          in: "formData"
+          description: "Item package quantity"
+          required: true
+          type: "integer"
+        - name: "pack_info"
+          in: "formData"
+          description: "Package information of the grocery item"
+          required: true
+          type: "string"
+        - name: "manufacturer"
+          in: "formData"
+          description: "Manufacturer of the grocery item"
+          required: true
+          type: "string"
+        - name: "country_origin"
+          in: "formData"
+          description: "Country of origin of the grocery item"
+          required: true
+          type: "string"
+        - name: "availability"
+          in: "formData"
+          description: "Boolean flag indicating if the item is available"
+          required: false
+          type: "boolean"
+        - name: "discount"
+          in: "formData"
+          description: "Boolean flag indicating if the item has a discount"
+          required: false
+          type: "boolean"
+        - name: "offers"
+          in: "formData"
+          description: "Boolean flag indicating if the item has offers"
+          required: false
+          type: "boolean"
+      security:
+        - Bearer: []
+      responses:
+        201:
+          description: "Grocery item entry created successfully"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: string
+        400:
+          description: "Bad Request"
+        500:
+          description: "Internal Server Error"
+  /bulk_create_items:
+    post:
+      tags:
+        - grocery items
+      summary: "Bulk create grocery items from CSV"
+      description: "Bulk create grocery items from a CSV file containing item details"
+      parameters:
+        - name: "csv"
+          in: "formData"
+          description: "CSV file containing grocery item details"
+          required: true
+          type: "file"
+      security:
+        - Bearer: []
+      responses:
+        201:
+          description: "Bulk grocery item entries created successfully"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+        400:
+          description: "Bad Request"
+        500:
+          description: "Internal Server Error"
+  /update_an_item/grocery_items_database/{id}:
+    put:
+      tags:
+        - grocery items
+      summary: "Update grocery item"
+      description: "Update a grocery item by ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the grocery item to be updated"
+          required: true
+          type: "string"
+        - name: "name"
+          in: "formData"
+          description: "Updated name of the grocery item"
+          required: false
+          type: "string"
+        - name: "price"
+          in: "formData"
+          description: "Updated price of the grocery item"
+          required: false
+          type: "integer"
+        - name: "image"
+          in: "formData"
+          description: "Updated image of the grocery item"
+          required: false
+          type: "file"
+        - name: "category"
+          in: "formData"
+          description: "Updated category of the grocery item"
+          required: false
+          type: "string"
+        - name: "weight"
+          in: "formData"
+          description: "Updated weight of the grocery item"
+          required: false
+          type: "string"
+        - name: "veg"
+          in: "formData"
+          description: "Updated vegetarian status of the grocery item"
+          required: false
+          type: "boolean"
+        - name: "brand"
+          in: "formData"
+          description: "Updated brand of the grocery item"
+          required: false
+          type: "string"
+        - name: "quantity"
+          in: "formData"
+          description: "Updated item package quantity of the grocery item"
+          required: false
+          type: "integer"
+        - name: "pack_info"
+          in: "formData"
+          description: "Updated package information of the grocery item"
+          required: false
+          type: "string"
+        - name: "manufacturer"
+          in: "formData"
+          description: "Updated manufacturer of the grocery item"
+          required: false
+          type: "string"
+        - name: "country_origin"
+          in: "formData"
+          description: "Updated country of origin of the grocery item"
+          required: false
+          type: "string"
+        - name: "availability"
+          in: "formData"
+          description: "Updated product availability status of the grocery item"
+          required: false
+          type: "boolean"
+        - name: "discount"
+          in: "formData"
+          description: "Updated discount applicable status of the grocery item"
+          required: false
+          type: "boolean"
+        - name: "offers"
+          in: "formData"
+          description: "Updated offers applicable status of the grocery item"
+          required: false
+          type: "boolean"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Grocery item updated successfully"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+        400:
+          description: "Bad Request"
+        404:
+          description: "Grocery item not found"
+        500:
+          description: "Internal Server Error"
+  /delete_an_item/grocery_items_database/{id}:
+    delete:
+      tags:
+        - grocery items
+      summary: "Delete a grocery item by ID"
+      description: "Delete a grocery item from the Firestore by its unique ID"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Unique ID of the grocery item"
+          required: true
+          type: "string"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Grocery item deleted successfully"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+        404:
+          description: "Grocery item not found"
+        500:
+          description: "Internal Server Error"
+
+definitions:
+  Grocery_Item:
+    type: "object"
+    properties:
+      ID:
+        type: "string"
+      Product_Name:
+        type: "string"
+      Price (Rs):
+        type: "integer"
+      Category:
+        type: "string"
+      Image:
+        type: "string"
+      Weight:
+        type: "string"
+      Vegetarian:
+        type: "boolean"
+      Brand:
+        type: "string"
+      Item_Package_Quantity:
+        type: "integer"
+      Package_Information:
+        type: "string"
+      Manufacturer:
+        type: "string"
+      Country_of_Origin:
+        type: "string"
+      Product_Availability:
+        type: "boolean"
+      Discount_Applicable:
+        type: "boolean"
+      Offers_Applicable:
+        type: "boolean"
